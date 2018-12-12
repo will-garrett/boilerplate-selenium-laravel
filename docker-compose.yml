@@ -1,7 +1,7 @@
 version: '3'
 services:
-  laravel-app:
-    container_name: boiler_laravel-app
+  laravel_app:
+    container_name: boiler_laravel
     build:
       context: php-fpm
       dockerfile: Dockerfile
@@ -29,6 +29,7 @@ services:
     volumes:
       - ./nginx/:/etc/nginx/conf.d
       - ./src:/var/www
+      - ${HOST_DATA_PATH}/nginx:/var/log/nginx
     depends_on:
       - laravel-app
   selenium-standalone:
@@ -39,8 +40,8 @@ services:
       - "59000:5900" ## VNC default password is "secret"
     networks:
       - local
-  maria-db:
-    container_name: boiler_maria-db
+  maria_db:
+    container_name: boiler_maria_db
     build: ./mariadb
     volumes:
       - ${HOST_DATA_PATH}/mariadb:/var/lib/mysql
