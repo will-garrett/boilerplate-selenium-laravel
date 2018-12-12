@@ -16,6 +16,21 @@ services:
       - ./php-fpm/local.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
       - local
+  nginx:
+    image: nginx:alpine
+    container_name: boiler_nginx
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "8080:80"
+      - "4430:443"
+    networks:
+      - local
+    volumes:
+      - ./nginx/:/etc/nginx/conf.d
+      - ./src:/var/www
+    depends_on:
+      - laravel-app
   selenium-standalone:
     container_name: boiler_selenium-standalone-debug
     image: selenium/standalone-firefox-debug
