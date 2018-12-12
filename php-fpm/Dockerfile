@@ -48,6 +48,6 @@ USER www
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
 
-RUN composer update
+# RUN composer update
 
 CMD ["php-fpm"]

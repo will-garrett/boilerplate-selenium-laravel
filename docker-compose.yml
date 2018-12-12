@@ -11,11 +11,19 @@ services:
       SERVICE_NAME: boilerplate
       SERVICE_TAGS: dev
     working_dir: /var/www
+    depends_on:
+      - maria_db
     volumes:
       - ./src:/var/www
       - ./php-fpm/local.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
       - local
+    environment:
+      - DB_HOST=maria_db
+      - DB_PORT=3306
+      - DB_DATABASE=laravel
+      - DB_USERNAME=laravel
+      - DB_PASSWORD=secret
   nginx:
     image: nginx:alpine
     container_name: boiler_nginx
@@ -31,7 +39,7 @@ services:
       - ./src:/var/www
       - ${HOST_DATA_PATH}/nginx:/var/log/nginx
     depends_on:
-      - laravel-app
+      - laravel_app
   selenium-standalone:
     container_name: boiler_selenium-standalone-debug
     image: selenium/standalone-firefox-debug
