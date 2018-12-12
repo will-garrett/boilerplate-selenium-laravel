@@ -1,0 +1,51 @@
+version: '3'
+services:
+  laravel-app:
+    container_name: boiler_laravel-app
+    build:
+      context: php-fpm
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: boilerplate
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - ./src:/var/www
+      - ./php-fpm/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - local
+  selenium-standalone:
+    container_name: boiler_selenium-standalone-debug
+    image: selenium/standalone-firefox-debug
+    ports:
+      - "4444:4444"
+      - "59000:5900" ## VNC default password is "secret"
+    networks:
+      - local
+  maria-db:
+    container_name: boiler_maria-db
+    build: ./mariadb
+    volumes:
+      - ${HOST_DATA_PATH}/mariadb:/var/lib/mysql
+      - ./mariadb/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - "${MARIADB_PORT}:3306"
+    environment:
+      - MYSQL_DATABASE=${MARIADB_DB}
+      - MYSQL_USER=${MARIADB_USER}
+      - MYSQL_PASSWORD=${MARIADB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MARIADB_ROOT_PASS}
+    networks:
+      - local
+  redis:
+    container_name: boiler_redis
+    image: redis:alpine
+    volumes:
+     - ${HOST_DATA_PATH}/redis:/data
+    networks:
+      - local
+networks:
+  local:
+    driver: bridge
