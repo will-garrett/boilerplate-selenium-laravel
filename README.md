@@ -11,11 +11,15 @@ Start containers
     docker-compose up -d
 ```
 
-Enter Laravel App Container
+Enter Laravel App Container & complete .env and composer setup
 ```bash
     docker exec -it boiler_laravel bash
+    composer update
+    php artisan key:generate
+    php artisan migrate
 ```
-To be continued
+
+To be continued...
 
 ## Running Tests
 
