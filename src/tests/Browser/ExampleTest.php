@@ -16,7 +16,8 @@ class ExampleTest extends DuskTestCase
     public function testBasicExample()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit('/')
+            $docker_domain = "http://nginx";
+            $browser->visit($docker_domain.'/')
                     ->assertSee('Laravel');
         });
     }

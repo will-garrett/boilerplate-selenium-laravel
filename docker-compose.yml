@@ -42,7 +42,7 @@ services:
       - laravel_app
   selenium:
     container_name: boiler_selenium-standalone-debug
-    image: selenium/standalone-firefox-debug
+    image: selenium/standalone-chrome-debug
     ports:
       - "4444:4444"
       - "59000:5900" ## VNC default password is "secret"
