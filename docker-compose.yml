@@ -40,7 +40,7 @@ services:
       - ${HOST_DATA_PATH}/nginx:/var/log/nginx
     depends_on:
       - laravel_app
-  selenium-standalone:
+  selenium:
     container_name: boiler_selenium-standalone-debug
     image: selenium/standalone-firefox-debug
     ports:
