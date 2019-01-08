@@ -6,7 +6,7 @@ use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class ExampleTest extends DuskTestCase
+class ExampleVueTest extends DuskTestCase
 {
     /**
      * A basic browser test example.
@@ -16,9 +16,10 @@ class ExampleTest extends DuskTestCase
     public function testBasicExample()
     {
         $this->browse(function (Browser $browser) {
-            $docker_domain = "http://nginx";
-            $browser->visit($docker_domain.'/')
-                    ->assertSee('Laravel');
+            // Tests
+            $browser->visit('/')
+                    ->assertSee('Example Component')
+                    ->assertSee('I\'m an example vue component');
         });
     }
 }

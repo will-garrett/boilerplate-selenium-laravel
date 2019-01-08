@@ -1,14 +1,14 @@
 version: '3'
 services:
   laravel_app:
-    container_name: boiler_laravel
+    container_name: site_willgarrett_laravel
     build:
       context: php-fpm
       dockerfile: Dockerfile
     restart: unless-stopped
     tty: true
     environment:
-      SERVICE_NAME: boilerplate
+      SERVICE_NAME: site
       SERVICE_TAGS: dev
     working_dir: /var/www
     depends_on:
@@ -24,9 +24,16 @@ services:
       - DB_DATABASE=laravel
       - DB_USERNAME=laravel
       - DB_PASSWORD=secret
+  node:
+    image: node:8
+    container_name: site_willgarrett_node
+    volumes:
+      - ./src:/var/www
+    networks:
+      - local
   nginx:
     image: nginx:alpine
-    container_name: boiler_nginx
+    container_name: site_willgarrett_nginx
     restart: unless-stopped
     tty: true
     ports:
@@ -41,7 +48,7 @@ services:
     depends_on:
       - laravel_app
   selenium:
-    container_name: boiler_selenium-standalone-debug
+    container_name: site_willgarrett_selenium-standalone-debug
     image: selenium/standalone-chrome-debug
     ports:
       - "4444:4444"
@@ -49,7 +56,7 @@ services:
     networks:
       - local
   maria_db:
-    container_name: boiler_maria_db
+    container_name: site_willgarrett_maria_db
     build: ./mariadb
     volumes:
       - ${HOST_DATA_PATH}/mariadb:/var/lib/mysql
@@ -64,7 +71,7 @@ services:
     networks:
       - local
   redis:
-    container_name: boiler_redis
+    container_name: site_willgarrett_redis
     image: redis:alpine
     volumes:
      - ${HOST_DATA_PATH}/redis:/data
