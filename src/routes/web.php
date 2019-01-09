@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\GithubController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,3 +20,5 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/github/repos', 'GithubController@repos');

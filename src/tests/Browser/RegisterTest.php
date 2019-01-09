@@ -30,6 +30,7 @@ class RegisterTest extends DuskTestCase
                 ->value('@password-confirm', $data['password'])
                 ->click('@submit')
                 ->waitForLocation("/home")
+                ->pause(3000)
                 ->assertSee('You are logged in!')
                 ->assertSee($data->name);
         });

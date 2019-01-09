@@ -80,7 +80,7 @@
             @endif
 
             <div id="app">
-            <example-component></example-component>
+                <github-component></github-component>
             </div>
             <script src="js/app.js"></script>
         </div>
