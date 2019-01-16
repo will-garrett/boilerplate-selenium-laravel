@@ -18,11 +18,17 @@ class GithubController extends Controller
             ]
         );
     }
+    public function user_info(){
+        $result = $this->client->request('GET', '/user', ['auth' => [getenv('GITHUB_USER'), getenv('GITHUB_TOKEN')]]);
+        $body = $result->getBody();
+        $user_info = json_decode($body, 1);
+        return $user_info;
+    }
     public function repos(){
         try{
             $result = $this->client->request('GET', '/user/repos', ['auth' => [getenv('GITHUB_USER'), getenv('GITHUB_TOKEN')]]);
             $body = $result->getBody();
-            $repos = json_decode($body, true);
+            $repos = json_decode($body, 1);
             $user_repos = [];
             foreach($repos as $repo){
                if($repo['fork'] == false){

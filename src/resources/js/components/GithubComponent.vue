@@ -3,11 +3,16 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card card-default">
-                    <div class="card-header">Example Component</div>
-
-                    <div class="card-body">
-                        I'm an example vue component.
-                    </div>
+                    <img :src="user_data.avatar_url" width="100" height="100">
+                    <span>Repositories</span>
+                    <ul id="repos">
+                    <li v-for="item in repo_data" :key="item.updated_at">
+                        <a v-if="item.private == false" :href="item.url">
+                        {{ item.name }} - {{ item.description }}
+                        </a>
+                        <strike v-else>{{ item.name }}</strike>
+                    </li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -19,20 +24,26 @@
     export default {
         data() {
             return {
-                data : '',
-                env: null
+                repo_data : '',
+                user_data: ''
             }
         },
         mounted() {
-            console.log('Component mounted.');
             let github = axios.create({
-                baseURL: '/github',
-                
+                baseURL: '/github',    
             });
             github.get("/repos")
             .then(response => {
                 console.log(response);
-                this.data = response;
+                this.repo_data = response.data;
+            })
+            .catch(function (response){
+                console.log(response);
+            });
+            github.get("/user")
+            .then(response => {
+                console.log(response);
+                this.user_data = response.data;
             })
             .catch(function (response){
                 console.log(response);

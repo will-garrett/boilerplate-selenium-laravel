@@ -22,3 +22,4 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/github/repos', 'GithubController@repos');
+Route::get('/github/user', 'GithubController@user_info');

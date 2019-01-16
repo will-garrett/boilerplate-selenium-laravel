@@ -47845,26 +47845,35 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 var axios = __webpack_require__(5);
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            data: '',
-            env: null
+            repo_data: '',
+            user_data: ''
         };
     },
     mounted: function mounted() {
         var _this = this;
 
-        console.log('Component mounted.');
         var github = axios.create({
             baseURL: '/github'
-
         });
         github.get("/repos").then(function (response) {
             console.log(response);
-            _this.data = response;
+            _this.repo_data = response.data;
+        }).catch(function (response) {
+            console.log(response);
+        });
+        github.get("/user").then(function (response) {
+            console.log(response);
+            _this.user_data = response.data;
         }).catch(function (response) {
             console.log(response);
         });
@@ -47879,32 +47888,51 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "row justify-content-center" }, [
-        _c("div", { staticClass: "col-md-8" }, [
-          _c("div", { staticClass: "card card-default" }, [
-            _c("div", { staticClass: "card-header" }, [
-              _vm._v("Example Component")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _vm._v(
-                "\n                    I'm an example vue component.\n                "
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row justify-content-center" }, [
+      _c("div", { staticClass: "col-md-8" }, [
+        _c("div", { staticClass: "card card-default" }, [
+          _c("img", {
+            attrs: {
+              src: _vm.user_data.avatar_url,
+              width: "100",
+              height: "100"
+            }
+          }),
+          _vm._v(" "),
+          _c("span", [_vm._v("Repositories")]),
+          _vm._v(" "),
+          _c(
+            "ul",
+            { attrs: { id: "repos" } },
+            _vm._l(_vm.repo_data, function(item) {
+              return _c(
+                "li",
+                { key: item.updated_at },
+                [
+                  item.private == false
+                    ? _c("a", { attrs: { href: item.url } }, [
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(item.name) +
+                            " - " +
+                            _vm._s(item.description) +
+                            "\n                    "
+                        )
+                      ])
+                    : _c("strike", [_vm._v(_vm._s(item.name))])
+                ],
+                1
               )
-            ])
-          ])
+            }),
+            0
+          )
         ])
       ])
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
